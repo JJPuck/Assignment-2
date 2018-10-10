@@ -134,36 +134,53 @@ void apply( node* n, int op )
 	blank_pos = t;
 }
 
+int min_threshold(int threshold, int* newThreshold){
+	if(threshold < *newThreshold){
+		return threshold;
+	}
+	else return *newThreshold;
+}
+
 /* Recursive IDA */
 node* ida( node* node, int threshold, int* newThreshold )
 {
 
+	struct node * node_next;
+	struct node* solved_node = NULL;
 	/**
 	 * FILL WITH YOUR CODE
 	 *
 	 * Algorithm in Figure 2 of handout
 	 */
+	int i;
+	for(i=2;i<4;i++){
+			printf("progress\n");
+		 if(applicable(i)){
 
-	 while(){
-		 node * node_next = malloc(sizeof(node));
-		 node_next->state = apply(node,OPERATION);
-		 node_next->g = node->g+1;
-		 node_next->f = node_next->g + manhattan(node_next->state);
+			 	 generated++;
+				 node_next = malloc(sizeof(struct node));
+				 apply(node_next,i);
+				 node_next->g = node->g+1;
+				 node_next->f = node_next->g + manhattan(node_next->state);
 
-		 if(node_next->f > threshold){
-			 newThreshold = min(node_next.f,newThreshold);
-		 }
-		 else{
-			if(manhattan(node_next->state) == 0){
-				 return node_next;
+				 if(node_next->f > threshold){
+						*newThreshold = min_threshold(node_next->f,newThreshold);
+				 }
+				 else{
+						if(manhattan(node_next->state) == 0){
+							 return node_next;
+						}
+						solved_node = ida(node_next,threshold,newThreshold);
+						if(solved_node!=0){
+							return solved_node;
+						}
+				 }
+				 free(node_next);
+				 free(solved_node);
 			 }
-/* What is r??? another new node? */
 		 }
-	 }
+	return( NULL );
 	/*
-
-	Arrows are assignment
-
 	IDA∗ (n, B, B0)
 	1 for a ∈ A(n.s) Applicable function
 	2 do
@@ -181,33 +198,45 @@ node* ida( node* node, int threshold, int* newThreshold )
 	13 return nil
 	*/
 
+	/*
+	for each applicaple action
+	perform the action
+	store the new node
+	check threshhold
+	recursively call new node
+	OR return
+	*/
 
-	return( NULL );
+
+
 }
 
 
 /* main IDA control loop */
 int IDA_control_loop(  ){
 	node* r = NULL;
-
+	node* node_state = malloc(sizeof(node));
 	int threshold;
+	int newThreshold;
 
 	/* initialize statistics */
-	generated = 0;
-	expanded = 0;
+	generated = 0; /* nodes created in the search  */
+	expanded = 0; /*  */
 
 	/* compute initial threshold B */
 	initial_node.f = threshold = manhattan( initial_node.state );
 
 	printf( "Initial Estimate = %d\nThreshold = ", threshold );
 
-
-	/**
-	 * FILL WITH YOUR CODE
-	 *
-	 * Algorithm in Figure 1 of handout
-	 */
-
+	 while(r==NULL){
+		newThreshold = 99999;
+		memcpy(&node_state->state, &initial_node.state, sizeof(node_state->state));
+		node_state->g = 0;
+		r = ida(node_state,threshold,&newThreshold);
+		if(r==NULL){
+			threshold = newThreshold;
+		}
+	 }
 	if(r)
 		return r->g;
 	else
