@@ -144,6 +144,43 @@ node* ida( node* node, int threshold, int* newThreshold )
 	 * Algorithm in Figure 2 of handout
 	 */
 
+	 while(){
+		 node * node_next = malloc(sizeof(node));
+		 node_next->state = apply(node,OPERATION);
+		 node_next->g = node->g+1;
+		 node_next->f = node_next->g + manhattan(node_next->state);
+
+		 if(node_next->f > threshold){
+			 newThreshold = min(node_next.f,newThreshold);
+		 }
+		 else{
+			if(manhattan(node_next->state) == 0){
+				 return node_next;
+			 }
+/* What is r??? another new node? */
+		 }
+	 }
+	/*
+
+	Arrows are assignment
+
+	IDA∗ (n, B, B0)
+	1 for a ∈ A(n.s) Applicable function
+	2 do
+			n'.s ← f(a, n.s) Apply function
+	3 	n'.g ← n.g + 1
+	4 	n'.f ← n'.g + h(n'.s) (heuristic function)
+	5 	if n'.f > B
+	6 		then B' ← min(n'.f, B')
+	7 		else
+	8 				if h(n'.s) = 0 (heuristic function on the node)
+	9 					then return n'
+	10 				r ← IDA∗(n', B, B') recursive call
+	11 				if r 6= nil
+	12 						then return r
+	13 return nil
+	*/
+
 
 	return( NULL );
 }
