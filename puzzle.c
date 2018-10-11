@@ -10,11 +10,11 @@
 
 
 /**
- * READ THIS DESCRIPTION
- *
- * node data structure: containing state, g, f
- * you can extend it with more information if needed
- */
+* READ THIS DESCRIPTION
+*
+* node data structure: containing state, g, f
+* you can extend it with more information if needed
+*/
 typedef struct node{
 	int state[16];
 	int g;
@@ -22,8 +22,8 @@ typedef struct node{
 } node;
 
 /**
- * Global Variables
- */
+* Global Variables
+*/
 
 // used to track the position of the blank in a state,
 // so it doesn't have to be searched every time we check if an operator is applicable
@@ -39,9 +39,9 @@ unsigned long expanded;
 
 
 /**
- * The id of the four available actions for moving the blank (empty slot). e.x.
- * Left: moves the blank to the left, etc.
- */
+* The id of the four available actions for moving the blank (empty slot). e.x.
+* Left: moves the blank to the left, etc.
+*/
 
 #define LEFT 0
 #define RIGHT 1
@@ -49,9 +49,9 @@ unsigned long expanded;
 #define DOWN 3
 
 /*
- * Helper arrays for the applicable function
- * applicability of operators: 0 = left, 1 = right, 2 = up, 3 = down
- */
+* Helper arrays for the applicable function
+* applicability of operators: 0 = left, 1 = right, 2 = up, 3 = down
+*/
 int ap_opLeft[]  = { 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1 };
 int ap_opRight[]  = { 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0 };
 int ap_opUp[]  = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
@@ -65,21 +65,21 @@ void print_state( int* s )
 	int i;
 
 	for( i = 0; i < 16; i++ )
-		printf( "%2d%c", s[i], ((i+1) % 4 == 0 ? '\n' : ' ') );
+	printf( "%2d%c", s[i], ((i+1) % 4 == 0 ? '\n' : ' ') );
 }
 
 void printf_comma (long unsigned int n) {
-    if (n < 0) {
-        printf ("-");
-        printf_comma (-n);
-        return;
-    }
-    if (n < 1000) {
-        printf ("%lu", n);
-        return;
-    }
-    printf_comma (n/1000);
-    printf (",%03lu", n%1000);
+	if (n < 0) {
+		printf ("-");
+		printf_comma (-n);
+		return;
+	}
+	if (n < 1000) {
+		printf ("%lu", n);
+		return;
+	}
+	printf_comma (n/1000);
+	printf (",%03lu", n%1000);
 }
 
 /* Calculates the xpos for a given state */
@@ -114,7 +114,7 @@ int manhattan( int* state )
 /* return 1 if op is applicable in state, otherwise return 0 */
 int applicable( int op )
 {
-       	return( ap_ops[op][blank_pos] );
+	return( ap_ops[op][blank_pos] );
 }
 
 
@@ -147,68 +147,44 @@ node* ida( node* node, int threshold, int* newThreshold )
 
 	struct node * node_next;
 	struct node* solved_node = NULL;
-	/**
-	 * FILL WITH YOUR CODE
-	 *
-	 * Algorithm in Figure 2 of handout
-	 */
 	int i;
-	for(i=2;i<4;i++){
-			printf("progress\n");
-		 if(applicable(i)){
+	for(i=0;i<4;i++){
+		if(applicable(i)){
 
-			 	 generated++;
-				 node_next = malloc(sizeof(struct node));
-				 apply(node_next,i);
-				 node_next->g = node->g+1;
-				 node_next->f = node_next->g + manhattan(node_next->state);
+			generated++;
+			node_next = malloc(sizeof(struct node));
+			apply(node_next,i);
+			node_next->g = node->g+1;
 
-				 if(node_next->f > threshold){
-						*newThreshold = min_threshold(node_next->f,newThreshold);
-				 }
-				 else{
-						if(manhattan(node_next->state) == 0){
-							 return node_next;
-						}
-						solved_node = ida(node_next,threshold,newThreshold);
-						if(solved_node!=0){
-							return solved_node;
-						}
-				 }
-				 free(node_next);
-				 free(solved_node);
-			 }
-		 }
+			/* f(n) = g(n) + h(n) */
+			node_next->f = node_next->g + manhattan(node_next->state);
+
+			printf("%d ",threshold);
+
+			/* ERROR HERE  */
+			printf("%d ",node_next->f);
+			if(node_next->f > threshold){
+				printf("|");
+				*newThreshold = min_threshold(node_next->f,newThreshold);
+			}
+			else{
+
+				if(manhattan(node_next->state) == 0){
+					return node_next;
+				}
+
+				printf("recursion");
+				solved_node = ida(node_next,threshold,newThreshold);
+				if(solved_node!=NULL){
+					return solved_node;
+				}
+			}
+			free(node_next);
+			free(solved_node);
+		}
+	}
+	printf("returning NULL");
 	return( NULL );
-	/*
-	IDA∗ (n, B, B0)
-	1 for a ∈ A(n.s) Applicable function
-	2 do
-			n'.s ← f(a, n.s) Apply function
-	3 	n'.g ← n.g + 1
-	4 	n'.f ← n'.g + h(n'.s) (heuristic function)
-	5 	if n'.f > B
-	6 		then B' ← min(n'.f, B')
-	7 		else
-	8 				if h(n'.s) = 0 (heuristic function on the node)
-	9 					then return n'
-	10 				r ← IDA∗(n', B, B') recursive call
-	11 				if r 6= nil
-	12 						then return r
-	13 return nil
-	*/
-
-	/*
-	for each applicaple action
-	perform the action
-	store the new node
-	check threshhold
-	recursively call new node
-	OR return
-	*/
-
-
-
 }
 
 
@@ -228,19 +204,24 @@ int IDA_control_loop(  ){
 
 	printf( "Initial Estimate = %d\nThreshold = ", threshold );
 
-	 while(r==NULL){
-		newThreshold = 99999;
-		memcpy(&node_state->state, &initial_node.state, sizeof(node_state->state));
+	while(expanded<10){
+		newThreshold = INT_MAX;
+		memcpy(node_state->state, initial_node.state, sizeof(node_state->state));
 		node_state->g = 0;
+
 		r = ida(node_state,threshold,&newThreshold);
+
+		/* ERROR HERE */
 		if(r==NULL){
+			printf("%d",newThreshold);
 			threshold = newThreshold;
 		}
-	 }
+		expanded++;
+	}
 	if(r)
-		return r->g;
+	return r->g;
 	else
-		return -1;
+	return -1;
 }
 
 
@@ -275,11 +256,11 @@ int main( int argc, char **argv )
 	if( fgets(buffer, sizeof(buffer), initFile) != NULL ){
 		char* tile = strtok( buffer, " " );
 		for( i = 0; tile != NULL; ++i )
-			{
-				initial_node.state[i] = atoi( tile );
-				blank_pos = (initial_node.state[i] == 0 ? i : blank_pos);
-				tile = strtok( NULL, " " );
-			}
+		{
+			initial_node.state[i] = atoi( tile );
+			blank_pos = (initial_node.state[i] == 0 ? i : blank_pos);
+			tile = strtok( NULL, " " );
+		}
 	}
 	else{
 		fprintf( stderr, "Filename empty\"\n" );
