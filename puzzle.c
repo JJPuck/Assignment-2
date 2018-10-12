@@ -19,6 +19,7 @@ typedef struct node{
 	int state[16];
 	int g;
 	int f;
+	int prev_move;
 } node;
 
 /**
@@ -134,11 +135,42 @@ void apply( node* n, int op )
 	blank_pos = t;
 }
 
+void reverse_move( node* n, int op ){
+	if(op==LEFT){
+		apply(n,RIGHT);
+	}
+	if(op==RIGHT){
+		apply(n,LEFT);
+	}
+	if(op==UP){
+		apply(n,DOWN);
+	}
+	if(op==DOWN){
+		apply(n,UP);
+	}
+}
+
 int min_threshold(int threshold, int* newThreshold){
 	if(threshold < *newThreshold){
 		return threshold;
 	}
-	else return *newThreshold;
+	return *newThreshold;
+}
+
+int prevent_reset(int op,int prev_op){
+	if(prev_op==LEFT && op==RIGHT){
+		return 0;
+	}
+	if(prev_op==RIGHT && op==LEFT){
+		return 0;
+	}
+	if(prev_op==UP && op==DOWN){
+		return 0;
+	}
+	if(prev_op==DOWN && op==UP){
+		return 0;
+	}
+	return 1;
 }
 
 /* Recursive IDA */
@@ -146,38 +178,45 @@ node* ida( node* node, int threshold, int* newThreshold )
 {
 
 	struct node * r = NULL;
+	//int previous_state;
+	int prev_move = node->prev_move;
+
 	for(int i=0;i<4;i++){
-		if(applicable(i))
+		if(applicable(i)==1)
 		{
+			if(prevent_reset(i,node->prev_move)!=1){
+				break;
+			}
 			generated++;
 			/* Apply the action */
+
 			apply(node,i);
-			/* Update n's g */
+			printf("============== %d:%d\n",threshold,prev_move);
+			print_state(node->state);
+			node->prev_move = i;
+			prev_move=i;
 			node->g = node->g+1;
-			/* Update n's f */
 			node->f = node->g + manhattan(node->state);
-			/* Check n'f > threshold, take min if true */
+
 			if(node->f > threshold){
-				//printf("updated");
 				*newThreshold = min_threshold(node->f,newThreshold);
+				reverse_move(node,prev_move);
+				printf("========\n");
+				print_state(node->state);
 			}
 			else{
 				/* if heuristic is 0 return solution */
 				if(manhattan(node->state)==0){
-					//printf("h = 0");
 					return node;
 				}
 				/* if not repeat IDA with new state */
-				//printf("recursive");
 				r = ida(node,threshold,newThreshold);
 				if(r!=NULL){
 					return r;
 				}
 			}
 		}
-
 	}
-
 	return( NULL );
 }
 
@@ -201,14 +240,14 @@ int IDA_control_loop(  ){
 		newThreshold = INT_MAX;
 		memcpy(node_state->state, initial_node.state, sizeof(node_state->state));
 		node_state->g = 0;
-
 		r = ida(node_state,threshold,&newThreshold);
-
 		if(r==NULL){
 			/* This updates now */
+			if(threshold < 500){
+				//printf("%d ",threshold);
+			}
 			threshold = newThreshold;
 		}
-		expanded++;
 	}
 	if(r)
 	return r->g;
@@ -269,6 +308,7 @@ int main( int argc, char **argv )
 	/* initialize the initial node */
 	initial_node.g=0;
 	initial_node.f=0;
+	initial_node.prev_move = 5;
 
 	print_state( initial_node.state );
 

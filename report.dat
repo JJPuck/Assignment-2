@@ -229,3 +229,141 @@
 1.puzzle
 	Soulution = -1, Generated = 0, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
 
+3.puzzle
+	Soulution = 1, Generated = 1, Expanded = 1, Time = 0.000000, Expanded/Second = inf
+
+3.puzzle
+	Soulution = 1, Generated = 1, Expanded = 1, Time = 0.000000, Expanded/Second = inf
+
+3.puzzle
+	Soulution = 1, Generated = 1, Expanded = 1, Time = 0.000000, Expanded/Second = inf
+
+3.puzzle
+	Soulution = 1, Generated = 1, Expanded = 1, Time = 0.000000, Expanded/Second = inf
+
+3.puzzle
+	Soulution = 1, Generated = 1, Expanded = 1, Time = 0.000000, Expanded/Second = inf
+
+4.puzzle
+	Soulution = -1, Generated = 3809, Expanded = 50, Time = 0.015625, Expanded/Second = 3200.000000
+
+4.puzzle
+	Soulution = -1, Generated = 6306, Expanded = 50, Time = 0.015625, Expanded/Second = 3200.000000
+
+4.puzzle
+	Soulution = -1, Generated = 6306, Expanded = 50, Time = 0.031250, Expanded/Second = 1600.000000
+
+4.puzzle
+	Soulution = -1, Generated = 4896, Expanded = 50, Time = 0.015625, Expanded/Second = 3200.000000
+
+4.puzzle
+	Soulution = -1, Generated = 6306, Expanded = 50, Time = 0.031250, Expanded/Second = 1600.000000
+
+3.puzzle
+	Soulution = 1, Generated = 1, Expanded = 1, Time = 0.000000, Expanded/Second = inf
+
+3.puzzle
+	Soulution = 1, Generated = 1, Expanded = 1, Time = 0.000000, Expanded/Second = inf
+
+4.puzzle
+	Soulution = 2, Generated = 5, Expanded = 2, Time = 0.000000, Expanded/Second = inf
+
+4.puzzle
+	Soulution = 2, Generated = 5, Expanded = 2, Time = 0.000000, Expanded/Second = inf
+
+4.puzzle
+	Soulution = 2, Generated = 5, Expanded = 2, Time = 0.000000, Expanded/Second = inf
+
+4.puzzle
+	Soulution = 2, Generated = 5, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 2, Generated = 5, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+3.puzzle
+	Soulution = 1, Generated = 1, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 2, Generated = 5, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+5.puzzle
+	Soulution = 2, Generated = 2, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+5.puzzle
+	Soulution = 2, Generated = 2, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+5.puzzle
+	Soulution = 2, Generated = 2, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+5.puzzle
+	Soulution = 3, Generated = 3, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+3.puzzle
+	Soulution = 1, Generated = 1, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+5.puzzle
+	Soulution = 3, Generated = 3, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+5.puzzle
+	Soulution = 3, Generated = 3, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+3.puzzle
+	Soulution = 5, Generated = 8, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+3.puzzle
+	Soulution = 5, Generated = 8, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 3, Generated = 3, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 3, Generated = 3, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 3, Generated = 3, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+3.puzzle
+	Soulution = 5, Generated = 7, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 3, Generated = 3, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+5.puzzle
+	Soulution = 3, Generated = 3, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 3, Generated = 3, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+5.puzzle
+	Soulution = 3, Generated = 3, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 1, Generated = 1, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 1, Generated = 1, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 1, Generated = 1, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 1, Generated = 1, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+3.puzzle
+	Soulution = 5, Generated = 7, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+3.puzzle
+	Soulution = 5, Generated = 7, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 1, Generated = 1, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 1, Generated = 1, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+5.puzzle
+	Soulution = 3, Generated = 3, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+3.puzzle
+	Soulution = 5, Generated = 7, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
