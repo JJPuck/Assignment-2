@@ -190,3 +190,42 @@
 1.puzzle
 	Soulution = 1, Generated = 10, Expanded = 10, Time = 0.000000, Expanded/Second = inf
 
+1.puzzle
+	Soulution = -1, Generated = 0, Expanded = 10, Time = 0.000000, Expanded/Second = inf
+
+1.puzzle
+	Soulution = -1, Generated = 0, Expanded = 10, Time = 0.000000, Expanded/Second = inf
+
+2.puzzle
+	Soulution = -1, Generated = 0, Expanded = 10, Time = 0.000000, Expanded/Second = inf
+
+2.puzzle
+	Soulution = -1, Generated = 0, Expanded = 2, Time = 0.000000, Expanded/Second = inf
+
+1.puzzle
+	Soulution = 1, Generated = 2, Expanded = 2, Time = 0.000000, Expanded/Second = inf
+
+1.puzzle
+	Soulution = 1, Generated = 2, Expanded = 2, Time = 0.000000, Expanded/Second = inf
+
+1.puzzle
+	Soulution = 1, Generated = 2, Expanded = 2, Time = 0.000000, Expanded/Second = inf
+
+1.puzzle
+	Soulution = 1, Generated = 10, Expanded = 10, Time = 0.000000, Expanded/Second = inf
+
+1.puzzle
+	Soulution = 1, Generated = 1, Expanded = 1, Time = 0.000000, Expanded/Second = inf
+
+1.puzzle
+	Soulution = -1, Generated = 400, Expanded = 10, Time = 0.000000, Expanded/Second = inf
+
+1.puzzle
+	Soulution = -1, Generated = 24, Expanded = 2, Time = 0.000000, Expanded/Second = inf
+
+1.puzzle
+	Soulution = -1, Generated = 0, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+1.puzzle
+	Soulution = -1, Generated = 0, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+

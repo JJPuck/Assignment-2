@@ -145,45 +145,39 @@ int min_threshold(int threshold, int* newThreshold){
 node* ida( node* node, int threshold, int* newThreshold )
 {
 
-	struct node * node_next;
-	struct node* solved_node = NULL;
-	int i;
-	for(i=0;i<4;i++){
-		if(applicable(i)){
-
+	struct node * r = NULL;
+	for(int i=0;i<4;i++){
+		if(applicable(i))
+		{
 			generated++;
-			node_next = malloc(sizeof(struct node));
-			apply(node_next,i);
-			node_next->g = node->g+1;
-
-			/* f(n) = g(n) + h(n) */
-			node_next->f = node_next->g + manhattan(node_next->state);
-
-			printf("%d ",threshold);
-
-			/* ERROR HERE  */
-			printf("%d ",node_next->f);
-			if(node_next->f > threshold){
-				printf("|");
-				*newThreshold = min_threshold(node_next->f,newThreshold);
+			/* Apply the action */
+			apply(node,i);
+			/* Update n's g */
+			node->g = node->g+1;
+			/* Update n's f */
+			node->f = node->g + manhattan(node->state);
+			/* Check n'f > threshold, take min if true */
+			if(node->f > threshold){
+				//printf("updated");
+				*newThreshold = min_threshold(node->f,newThreshold);
 			}
 			else{
-
-				if(manhattan(node_next->state) == 0){
-					return node_next;
+				/* if heuristic is 0 return solution */
+				if(manhattan(node->state)==0){
+					//printf("h = 0");
+					return node;
 				}
-
-				printf("recursion");
-				solved_node = ida(node_next,threshold,newThreshold);
-				if(solved_node!=NULL){
-					return solved_node;
+				/* if not repeat IDA with new state */
+				//printf("recursive");
+				r = ida(node,threshold,newThreshold);
+				if(r!=NULL){
+					return r;
 				}
 			}
-			free(node_next);
-			free(solved_node);
 		}
+
 	}
-	printf("returning NULL");
+
 	return( NULL );
 }
 
@@ -203,17 +197,15 @@ int IDA_control_loop(  ){
 	initial_node.f = threshold = manhattan( initial_node.state );
 
 	printf( "Initial Estimate = %d\nThreshold = ", threshold );
-
-	while(expanded<10){
+	while(r==NULL){
 		newThreshold = INT_MAX;
 		memcpy(node_state->state, initial_node.state, sizeof(node_state->state));
 		node_state->g = 0;
 
 		r = ida(node_state,threshold,&newThreshold);
 
-		/* ERROR HERE */
 		if(r==NULL){
-			printf("%d",newThreshold);
+			/* This updates now */
 			threshold = newThreshold;
 		}
 		expanded++;
