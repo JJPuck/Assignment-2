@@ -99,7 +99,6 @@ int manhattan( int* state )
 	int x_dist, y_dist;
 	int i=0;
 
-	/* Manhattan distance from state to blank_pos? No, from state to where it wants to be in the end, the final position of the state */
 	while( i<16 ){
 		if( state[i] != 0 ){
 			x_dist = abs( xpos(i) - xpos(state[i]) );
@@ -179,30 +178,24 @@ node* ida( node* node, int threshold, int* newThreshold )
 
 	struct node * r = NULL;
 	//int previous_state;
-	int prev_move = node->prev_move;
+	//int prev_move = node->prev_move;
+	int prev_f, prev_g;
 
 	for(int i=0;i<4;i++){
-		if(applicable(i)==1)
+		if(applicable(i)==1 && prevent_reset(i,node->prev_move)==1)
 		{
-			if(prevent_reset(i,node->prev_move)!=1){
-				break;
-			}
 			generated++;
 			/* Apply the action */
 
 			apply(node,i);
-			printf("============== %d:%d\n",threshold,prev_move);
-			print_state(node->state);
 			node->prev_move = i;
-			prev_move=i;
+			prev_g = node->g;
+			prev_f = node->f;
 			node->g = node->g+1;
 			node->f = node->g + manhattan(node->state);
 
 			if(node->f > threshold){
 				*newThreshold = min_threshold(node->f,newThreshold);
-				reverse_move(node,prev_move);
-				printf("========\n");
-				print_state(node->state);
 			}
 			else{
 				/* if heuristic is 0 return solution */
@@ -215,6 +208,10 @@ node* ida( node* node, int threshold, int* newThreshold )
 					return r;
 				}
 			}
+		node->f = prev_f;
+		node->g = prev_g;
+		reverse_move(node,i);
+
 		}
 	}
 	return( NULL );
@@ -241,12 +238,10 @@ int IDA_control_loop(  ){
 		memcpy(node_state->state, initial_node.state, sizeof(node_state->state));
 		node_state->g = 0;
 		r = ida(node_state,threshold,&newThreshold);
+		printf("control loop\n");
 		if(r==NULL){
-			/* This updates now */
-			if(threshold < 500){
-				//printf("%d ",threshold);
-			}
 			threshold = newThreshold;
+			printf("%d",threshold);
 		}
 	}
 	if(r)
