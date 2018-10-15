@@ -147,23 +147,6 @@ int min_threshold(int threshold, int* newThreshold){
 	return *newThreshold;
 }
 
-int prevent_reset(int op,int prev_op){
-
-	if(prev_op==LEFT && op==RIGHT){
-		return 0;
-	}
-	if(prev_op==RIGHT && op==LEFT){
-		return 0;
-	}
-	if(prev_op==UP && op==DOWN){
-		return 0;
-	}
-	if(prev_op==DOWN && op==UP){
-		return 0;
-	}
-	return 1;
-}
-
 void move_back(node* node, int prev){
 	if(node->prev_move == 5){
 		return;
@@ -180,6 +163,23 @@ void move_back(node* node, int prev){
 	}
 }
 
+/* If op would undo prev_op then skip */
+int prevent_reset(int op,int prev_op){
+
+	if(prev_op==LEFT && op==RIGHT){
+		return 0;
+	}
+	if(prev_op==RIGHT && op==LEFT){
+		return 0;
+	}
+	if(prev_op==UP && op==DOWN){
+		return 0;
+	}
+	if(prev_op==DOWN && op==UP){
+		return 0;
+	}
+	 else return 1;
+}
 
 /* Recursive IDA */
 node* ida( node* node, int threshold, int* newThreshold )
@@ -187,25 +187,27 @@ node* ida( node* node, int threshold, int* newThreshold )
 
 	struct node * r = NULL;
 	int last_move = node->prev_move;
-	int i;
+	int i, man_val;
 
 	for(i=0;i<4;i++){ /* line 1 */
 
-		if(applicable(i))
+		if(applicable(i)==1 && prevent_reset(i,node->prev_move)==1)
 		{
 			generated++;
 			node->prev_move = i;
 			apply(node,i); /* line 2 */
+			man_val = manhattan(node->state);
 			node->g = node->g+1; /* line 3*/
-			node->f = node->g + manhattan(node->state); /* line 4*/
+			node->f = node->g + man_val; /* line 4*/
 			if(node->f > threshold){ /* line 5 */
 				*newThreshold = min_threshold(node->f,newThreshold); /* line 6*/
 			}
 			else{ /* line 7*/
-				if(manhattan(node->state)==0){ /* line 8 */
+				if(man_val==0){ /* line 8 */
 					return node; /* line 9 */
 				}
 				r = ida(node,threshold,newThreshold); /* line 10 */
+				expanded++;
 				if(r!=NULL){ /* line 11 */
 					return r; /* line 12 */
 				}
@@ -240,6 +242,7 @@ int IDA_control_loop(  ){
 		if(r==NULL){ /* line 7 */
 			threshold = newThreshold; /* line 8 */
 		}
+		printf("%d ",threshold);
 	}
 	if(r)
 	return r->g;

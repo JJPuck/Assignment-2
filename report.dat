@@ -610,3 +610,54 @@
 4.puzzle
 	Soulution = 2, Generated = 2, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
 
+3.puzzle
+	Soulution = 7, Generated = 11, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+4.puzzle
+	Soulution = 2, Generated = 2, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+test.puzzle
+	Soulution = 1, Generated = 2, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+test.puzzle
+	Soulution = 1, Generated = 2, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+test.puzzle
+	Soulution = 2, Generated = 4, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+test.puzzle
+	Soulution = 3, Generated = 6, Expanded = 0, Time = 0.000000, Expanded/Second = -nan
+
+test.puzzle
+	Soulution = 3, Generated = 6, Expanded = 2, Time = 0.000000, Expanded/Second = inf
+
+3.puzzle
+	Soulution = 7, Generated = 11, Expanded = 6, Time = 0.000000, Expanded/Second = inf
+
+4.puzzle
+	Soulution = 2, Generated = 2, Expanded = 1, Time = 0.000000, Expanded/Second = inf
+
+2.puzzle
+	Soulution = 55, Generated = 9012243, Expanded = 4636976, Time = 2.062500, Expanded/Second = 2248230.750000
+
+3.puzzle
+	Soulution = 15, Generated = 290, Expanded = 141, Time = 0.000000, Expanded/Second = inf
+
+4.puzzle
+	Soulution = 2, Generated = 2, Expanded = 1, Time = 0.000000, Expanded/Second = inf
+
+1.puzzle
+	Soulution = 57, Generated = 407409198, Expanded = 206131932, Time = 94.687500, Expanded/Second = 2176971.000000
+
+test.puzzle
+	Soulution = 44, Generated = 11911577, Expanded = 5877907, Time = 2.781250, Expanded/Second = 2113404.750000
+
+2.puzzle
+	Soulution = 55, Generated = 9012243, Expanded = 4636976, Time = 2.109375, Expanded/Second = 2198270.000000
+
+2.puzzle
+	Soulution = 55, Generated = 9012243, Expanded = 4636976, Time = 2.093750, Expanded/Second = 2214675.000000
+
+2.puzzle
+	Soulution = 55, Generated = 9012243, Expanded = 4636976, Time = 2.046875, Expanded/Second = 2265392.750000
+
