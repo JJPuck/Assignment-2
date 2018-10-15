@@ -186,48 +186,42 @@ node* ida( node* node, int threshold, int* newThreshold )
 {
 
 	struct node * r = NULL;
-	int last_move = node->prev_move;
-	int i;
+	int  man_val,i;
 
+	/* initial move ot get to this level*/
+	int last_move = node->prev_move;
+	/* Last move on this level*/
 	for(i=0;i<4;i++){
-		
-		if(applicable(i))
+		if(applicable(i)==1)
 		{
 			generated++;
-			/* Apply the action */
-			node->prev_move = i;
+			node->prev_move=i;
 			apply(node,i);
-			/* Update n's g */
+			man_val = manhattan(node->state);
 			node->g = node->g+1;
-			/* Update n's f */
-			node->f = node->g + manhattan(node->state);
-			/* Check n'f > threshold, take min if true */
+			node->f = node->g + man_val;
+			printf("nt = %d\n",*newThreshold);
 			if(node->f > threshold){
-				//printf("updated");
-				*newThreshold = min_threshold(node->f,newThreshold);
-				move_back(node,last_move);
-				node->g = node->g-1;
+
+				*newThreshold = fmin(node->f,*newThreshold);
+				printf("nt = %d\n",*newThreshold);
 			}
 			else{
-				/* if heuristic is 0 return solution */
-				if(manhattan(node->state)==0){
-					//printf("h = 0");
+				if(man_val==0){
 					return node;
 				}
-				/* if not repeat IDA with new state */
-				//printf("recursive");
-				r = ida(node,threshold,newThreshold);
 				if(r!=NULL){
 					return r;
 				}
-				move_back(node,last_move);
-				node->g = node->g-1;
 			}
+			printf("nt = %d\n",*newThreshold);
+			move_back(node,last_move);
+			printf("nt = %d\n",*newThreshold);
 		}
-
+		printf("\nloop iter\n");
 	}
-
 	return( NULL );
+	printf("endcall oop");
 }
 
 
@@ -247,16 +241,16 @@ int IDA_control_loop(  ){
 
 	printf( "Initial Estimate = %d\nThreshold = ", threshold );
 	while(r==NULL){
+		printf("\nresetting nt===============================\n");
 		newThreshold = INT_MAX;
 		memcpy(node_state->state, initial_node.state, sizeof(node_state->state));
 		node_state->g = 0;
+		//node_state->prev_move = 5;
 		r = ida(node_state,threshold,&newThreshold);
-
 		if(r==NULL){
-			/* This updates now */
 			threshold = newThreshold;
 		}
-		printf("%d\n",threshold);
+		printf("\n%d",threshold);
 	}
 	if(r)
 	return r->g;

@@ -3,7 +3,7 @@ CPPFLAGS=-Wall  -Werror  -O3
 
 # Uncomment below if you want to use debug flags
 #
-#CPPFLAGS= -ggdb3
+CPPFLAGS= -ggdb3
 
 SRC=puzzle.o
 TARGET=15puzzle
