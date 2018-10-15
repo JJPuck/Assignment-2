@@ -189,35 +189,33 @@ node* ida( node* node, int threshold, int* newThreshold )
 	int last_move = node->prev_move;
 	int i;
 
-	for(i=0;i<4;i++){
+	for(i=0;i<4;i++){ /* line 1 */
 
 		if(applicable(i))
 		{
 			generated++;
 			node->prev_move = i;
-			apply(node,i);
-			node->g = node->g+1;
-			node->f = node->g + manhattan(node->state);
-			if(node->f > threshold){
-				*newThreshold = min_threshold(node->f,newThreshold);
-				move_back(node,last_move);
-				node->g = node->g-1;
+			apply(node,i); /* line 2 */
+			node->g = node->g+1; /* line 3*/
+			node->f = node->g + manhattan(node->state); /* line 4*/
+			if(node->f > threshold){ /* line 5 */
+				*newThreshold = min_threshold(node->f,newThreshold); /* line 6*/
 			}
-			else{
-				if(manhattan(node->state)==0){
-					return node;
+			else{ /* line 7*/
+				if(manhattan(node->state)==0){ /* line 8 */
+					return node; /* line 9 */
 				}
-				r = ida(node,threshold,newThreshold);
-				if(r!=NULL){
-					return r;
+				r = ida(node,threshold,newThreshold); /* line 10 */
+				if(r!=NULL){ /* line 11 */
+					return r; /* line 12 */
 				}
-				move_back(node,last_move);
-				node->g = node->g-1;
 			}
+			move_back(node,last_move);
+			node->g = node->g-1;
 		}
 	}
 
-	return( NULL );
+	return( NULL ); /* line 13 */
 }
 
 
@@ -231,19 +229,17 @@ int IDA_control_loop(  ){
 	generated = 0;
 	expanded = 0;
 
-	initial_node.f = threshold = manhattan( initial_node.state );
+	initial_node.f = threshold = manhattan( initial_node.state ); /* line 1 */
 
 	printf( "Initial Estimate = %d\nThreshold = ", threshold );
-	while(r==NULL){
-		newThreshold = INT_MAX;
-		memcpy(node_state->state, initial_node.state, sizeof(node_state->state));
-		node_state->g = 0;
-		r = ida(node_state,threshold,&newThreshold);
-		printf("\nblank %d\n",blank_pos);
-		if(r==NULL){
-			threshold = newThreshold;
+	while(r==NULL){ /* line 2 */
+		newThreshold = INT_MAX; /* line 3 */
+		memcpy(node_state->state, initial_node.state, sizeof(node_state->state)); /* line 4 */
+		node_state->g = 0; /* line 5 */
+		r = ida(node_state,threshold,&newThreshold); /* line 6 */
+		if(r==NULL){ /* line 7 */
+			threshold = newThreshold; /* line 8 */
 		}
-		printf("%d\n",threshold);
 	}
 	if(r)
 	return r->g;
