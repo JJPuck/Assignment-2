@@ -3,13 +3,13 @@ CPPFLAGS=-Wall  -Werror  -O3
 
 # Uncomment below if you want to use debug flags
 #
-#CPPFLAGS=-g
+#CPPFLAGS= -ggdb3
 
-SRC=puzzle.o  
+SRC=puzzle.o
 TARGET=15puzzle
 
 all: $(SRC)
-	$(CC) -o $(TARGET) $(SRC) $(CPPFLAGS)
+	$(CC) -o $(TARGET) $(SRC) $(CPPFLAGS) -lm
 
 clean:
 	rm -f $(TARGET) *.o

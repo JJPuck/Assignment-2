@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <sys/resource.h>
 #include <sys/time.h>
+#include <math.h>
 
 
 /**
@@ -48,11 +49,6 @@ unsigned long expanded;
 #define RIGHT 1
 #define UP 2
 #define DOWN 3
-
-#define INV_LEFT 1
-#define INV_RIGHT 0
-#define INV_UP 3
-#define INV_DOWN 2
 
 /*
 * Helper arrays for the applicable function
@@ -139,15 +135,32 @@ void apply( node* n, int op )
 	blank_pos = t;
 }
 
-int min_threshold(int threshold, int* newThreshold){
-	if(threshold < *newThreshold){
-		return threshold;
+
+void reverse(node*n,int prev_op){
+	int op;
+	if(prev_op==LEFT){
+		op=RIGHT;
+	}
+	if(prev_op==RIGHT){
+		op=LEFT;
+	}
+	if(prev_op==UP){
+		op=DOWN;
+	}
+	if(prev_op==DOWN){
+		op=UP;
+	}
+	apply(n,op);
+}
+
+int min_threshold(int nodef, int* newThreshold){
+	if(nodef < *newThreshold){
+		return nodef;
 	}
 	return *newThreshold;
 }
 
 int prevent_reset(int op,int prev_op){
-
 	if(prev_op==LEFT && op==RIGHT){
 		return 0;
 	}
@@ -160,42 +173,7 @@ int prevent_reset(int op,int prev_op){
 	if(prev_op==DOWN && op==UP){
 		return 0;
 	}
-	return 1;
-}
-
-void move_back(node* node, int prev){
-	if(node->prev_move == 5){
-		return;
-	}
-	else{
-		if(node->prev_move == 0 || node->prev_move == 2){
-			apply(node,node->prev_move+1);
-			node->prev_move = prev;
-		}
-		else{
-			apply(node,node->prev_move-1);
-			node->prev_move = prev;
-		}
-	}
-}
-
-void reverse_move( node* n, int op ){
-
-	if(op==5){
-		return;
-	}
-	if(op==LEFT){
-		apply(n,RIGHT);
-	}
-	if(op==RIGHT){
-		apply(n,LEFT);
-	}
-	if(op==UP){
-		apply(n,DOWN);
-	}
-	if(op==DOWN){
-		apply(n,UP);
-	}
+	else return 1;
 }
 
 /* Recursive IDA */
@@ -203,42 +181,49 @@ node* ida( node* node, int threshold, int* newThreshold )
 {
 
 	struct node * r = NULL;
-	int prev_g, man_val,i;
-
-	/* initial move ot get to this level*/
-	int recursive_prev_move = node->prev_move;
-	/* Last move on this level*/
+	int prev_f, prev_g,prev_move,manhattan_val,i;
+	prev_move = node->prev_move;
 
 	for(i=0;i<4;i++){
-		if(applicable(i)==1)
+		if(applicable(i)==1 && prevent_reset(i,prev_move)==1)
 		{
 			generated++;
 			/* Apply the action */
+			node->prev_move = i;
+			printf("===preapply=====\n");
+			printf("===Blank_pos %d =====\n",blank_pos);
+			print_state(node->state);
 			apply(node,i);
-			man_val = manhattan(node->state);
+			printf("===post apply=====\n");
+			printf("===Blank_pos %d =====\n",blank_pos);
+			print_state(node->state);
+			manhattan_val = manhattan(node->state);
 			prev_g = node->g;
+			prev_f = node->f;
 			node->g = node->g+1;
-			node->f = node->g + man_val;
+			node->f = node->g + manhattan_val;
 
 			if(node->f > threshold){
 				*newThreshold = min_threshold(node->f,newThreshold);
-				move_back(node,recursive_prev_move);
-				node->g = prev_g;
-
 			}
 			else{
 				/* if heuristic is 0 return solution */
-				if(man_val==0){
+				if(manhattan_val==0){
 					return node;
 				}
 				/* if not repeat IDA with new state */
+				printf("\n====Recursive Call====\n");
 				r = ida(node,threshold,newThreshold);
-				if(r!=NULL){
+				if(r){
 					return r;
 				}
-				move_back(node,recursive_prev_move);
-				node->g = prev_g;
 			}
+		node->g = prev_g;
+		node->f = prev_f;
+		printf("===pre reverse %d:%d=====\n",prev_move,blank_pos);
+		reverse(node,i);
+		printf("===reversed %d:%d=====\n",prev_move,blank_pos);
+		print_state(node->state);
 		}
 	}
 	return( NULL );
@@ -248,11 +233,9 @@ node* ida( node* node, int threshold, int* newThreshold )
 /* main IDA control loop */
 int IDA_control_loop(  ){
 	node* r = NULL;
-	node* node_state;
+	node* node_state = &initial_node;
 	int threshold;
 	int newThreshold;
-	int initial_blank = blank_pos;
-	printf("%d\n",initial_blank);
 
 	/* initialize statistics */
 	generated = 0; /* nodes created in the search  */
@@ -262,16 +245,21 @@ int IDA_control_loop(  ){
 	initial_node.f = threshold = manhattan( initial_node.state );
 
 	printf( "Initial Estimate = %d\nThreshold = ", threshold );
-	while(r==NULL){
-		//blank_pos = initial_blank;
+	while(!r){
 		newThreshold = INT_MAX;
 		node_state = &initial_node;
 		node_state->g = 0;
+		//printf("\n====new loop=====\n");
 		r = ida(node_state,threshold,&newThreshold);
-		if(r==NULL){
+		if(!r){
 			threshold = newThreshold;
+			//printf("\n%d\n",threshold);
 		}
-		printf("\n%d",threshold);
+			print_state(node_state->state);
+			if(threshold > 100){
+				exit(EXIT_FAILURE);
+			}
+
 	}
 	if(r)
 	return r->g;
@@ -364,3 +352,5 @@ int main( int argc, char **argv )
 
 	return( 0 );
 }
+
+
