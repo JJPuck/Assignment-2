@@ -147,7 +147,7 @@ int min_threshold(int threshold, int* newThreshold){
 	return *newThreshold;
 }
 
-void move_back(node* node, int prev){
+void reverse_move(node* node, int prev){
 	if(node->prev_move == 5){
 		return;
 	}
@@ -212,7 +212,7 @@ node* ida( node* node, int threshold, int* newThreshold )
 					return r; /* line 12 */
 				}
 			}
-			move_back(node,last_move);
+			reverse_move(node,last_move);
 			node->g = node->g-1;
 		}
 	}
