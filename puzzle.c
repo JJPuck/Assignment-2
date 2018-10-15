@@ -152,12 +152,20 @@ void reverse_move(node* node, int prev){
 		return;
 	}
 	else{
-		if(node->prev_move == 0 || node->prev_move == 2){
-			apply(node,node->prev_move+1);
+		if(node->prev_move == LEFT){
+			apply(node,RIGHT);
 			node->prev_move = prev;
 		}
-		else{
-			apply(node,node->prev_move-1);
+		else if(node->prev_move == UP){
+			apply(node,DOWN);
+			node->prev_move = prev;
+		}
+		else if(node->prev_move == RIGHT){
+			apply(node,LEFT);
+			node->prev_move = prev;
+		}
+		else if(node->prev_move == DOWN){
+			apply(node,UP);
 			node->prev_move = prev;
 		}
 	}

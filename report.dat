@@ -670,3 +670,6 @@ test.puzzle
 2.puzzle
 	Soulution = 55, Generated = 9012243, Expanded = 4636976, Time = 2.062500, Expanded/Second = 2248230.750000
 
+2.puzzle
+	Soulution = 55, Generated = 9012243, Expanded = 4636976, Time = 2.046875, Expanded/Second = 2265392.750000
+
