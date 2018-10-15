@@ -190,32 +190,23 @@ node* ida( node* node, int threshold, int* newThreshold )
 	int i;
 
 	for(i=0;i<4;i++){
-		
+
 		if(applicable(i))
 		{
 			generated++;
-			/* Apply the action */
 			node->prev_move = i;
 			apply(node,i);
-			/* Update n's g */
 			node->g = node->g+1;
-			/* Update n's f */
 			node->f = node->g + manhattan(node->state);
-			/* Check n'f > threshold, take min if true */
 			if(node->f > threshold){
-				//printf("updated");
 				*newThreshold = min_threshold(node->f,newThreshold);
 				move_back(node,last_move);
 				node->g = node->g-1;
 			}
 			else{
-				/* if heuristic is 0 return solution */
 				if(manhattan(node->state)==0){
-					//printf("h = 0");
 					return node;
 				}
-				/* if not repeat IDA with new state */
-				//printf("recursive");
 				r = ida(node,threshold,newThreshold);
 				if(r!=NULL){
 					return r;
@@ -224,7 +215,6 @@ node* ida( node* node, int threshold, int* newThreshold )
 				node->g = node->g-1;
 			}
 		}
-
 	}
 
 	return( NULL );
@@ -238,11 +228,9 @@ int IDA_control_loop(  ){
 	int threshold;
 	int newThreshold;
 
-	/* initialize statistics */
-	generated = 0; /* nodes created in the search  */
-	expanded = 0; /*  */
+	generated = 0;
+	expanded = 0;
 
-	/* compute initial threshold B */
 	initial_node.f = threshold = manhattan( initial_node.state );
 
 	printf( "Initial Estimate = %d\nThreshold = ", threshold );
@@ -251,9 +239,8 @@ int IDA_control_loop(  ){
 		memcpy(node_state->state, initial_node.state, sizeof(node_state->state));
 		node_state->g = 0;
 		r = ida(node_state,threshold,&newThreshold);
-
+		printf("\nblank %d\n",blank_pos);
 		if(r==NULL){
-			/* This updates now */
 			threshold = newThreshold;
 		}
 		printf("%d\n",threshold);
